@@ -1,19 +1,29 @@
 #pragma once
+
 #include "AVLInterface.h"
 #include "Node.h"
 
+using namespace std;
 class AVL : public AVLInterface {
-private:
+protected:
     Node* root;
+    Node* local_node; // used for `find`
+    int local_height;
 public:
+    /*
+    * `find` helps find data via recursion
+  * @return pointer of node next to or equal to data
+  * @return NULL if BST is empty
+    */
+    Node* find(const int& data);
+    bool removeFinalNode();
+    bool erase(Node*& local_root,const int& item);
+    void replace_parent(Node*& old_root, Node*& local_root);
+
     AVL();
     ~AVL();
-
-    NodeInterface * getRootNode() const;
+    NodeInterface* getRootNode() const;
     bool add(int data);
     bool remove(int data);
     void clear();
-
-    Node* find(const int& data) const;
-    void step_find(Node*& local_root, const int& data) const;
 };

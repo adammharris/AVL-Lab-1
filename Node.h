@@ -1,22 +1,31 @@
 #pragma once
+#include <iostream>
 #include "NodeInterface.h"
 
 class Node : public NodeInterface {
 private:
-    Node* right;
-    Node* left;
-    int height;
     int data;
+    int height;
+    Node* left;
+    Node* right;
+    NodeInterface* l;
+    NodeInterface* r;
+
 public:
-    Node(const int& data);
-    ~Node();
+    Node(int data);
+
+    void setData(int data);
+    void setLeft(Node* newLeft);
+    void setRight(Node* newRight);
+    Node* getLeft() const;
+    Node* getRight() const;
+    Node*& recurseRight();
+    Node*& recurseLeft();
 
     int getData() const;
-    NodeInterface * getLeftChild() const;
-    NodeInterface * getRightChild() const;
-    int getHeight();
+    NodeInterface* getLeftChild() const;
+    NodeInterface* getRightChild() const;
 
-    Node*& getRight();
-    Node*& getLeft();
     void setHeight(int height);
+    int getHeight();
 };
