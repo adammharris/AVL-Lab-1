@@ -13,7 +13,7 @@ public:
     /*
     * `find` helps find data via recursion
   * @return pointer of node next to or equal to data
-  * @return NULL if BST is empty
+  * @return nullptr if BST is empty
     */
     Node* find(const int& data);
     bool removeFinalNode();
@@ -26,4 +26,7 @@ public:
     bool add(int data);
     bool remove(int data);
     void clear();
+
+    void rotateLeft();
+    void rotateRight();
 };

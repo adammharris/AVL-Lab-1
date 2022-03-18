@@ -4,8 +4,8 @@
 
 Node::Node(int data) {
     this->data = data;
-    left = NULL;
-    right = NULL;
+    left = nullptr;
+    right = nullptr;
     height = 1;
 }
 

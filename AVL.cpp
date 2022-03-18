@@ -9,20 +9,21 @@ Node* AVL::find(const int& data) {
     } else if (data < local_node->getData()) {
         nextNode = local_node->getLeft();
     } else {
-        nextNode = NULL;
+        nextNode = nullptr;
     }
-    if (nextNode == NULL) {
+    if (nextNode == nullptr) {
         Node* toReturn = local_node;
         local_node = root; // reset local_node
         return toReturn;
     }
     local_node = nextNode;
+    local_height++;
     return find(data);
 }
 
 AVL::AVL() {
-    root = NULL;
-    local_node = NULL;
+    root = nullptr;
+    local_node = nullptr;
 }
 AVL::~AVL() {
     clear();
@@ -31,13 +32,13 @@ NodeInterface* AVL::getRootNode() const {
     return root;
 }
 bool AVL::add(int data) {
-    if (root == NULL) {
+    if (root == nullptr) {
         root = new Node(data);
         local_node = root;
         return true;
     }
     Node* closestNode = find(data);
-    if (closestNode == NULL || closestNode->getData() == data) {
+    if (closestNode == nullptr || closestNode->getData() == data) {
         return false;
     }
     Node* newNode = new Node(data);
@@ -52,16 +53,16 @@ bool AVL::remove(int data) {
     return erase(root, data);
 }
 bool AVL::removeFinalNode() {
-    if (root == NULL)
+    if (root == nullptr)
         return false;
     delete root;
-    root = NULL;
-    local_node = NULL;
+    root = nullptr;
+    local_node = nullptr;
     return true;
 }
 
 void AVL::clear() {
-    if (root == NULL)
+    if (root == nullptr)
         return;
     remove(root->getData());
     clear();
@@ -73,23 +74,23 @@ bool AVL::erase(Node*& local_root,const int& item) {
         // root has no children
         // root has one child
         // root has both children
-        if (root->getLeft() == NULL && root->getRight() == NULL) {
+        if (root->getLeft() == nullptr && root->getRight() == nullptr) {
             return removeFinalNode(); // no children
         }
-        if ((root->getLeft() == NULL) != (root->getRight() == NULL)) {
+        if ((root->getLeft() == nullptr) != (root->getRight() == nullptr)) {
             // one child (should make child root)
-            Node* onlyChild = (root->getLeft()!=NULL) ? root->getLeft() : root->getRight();
+            Node* onlyChild = (root->getLeft()!=nullptr) ? root->getLeft() : root->getRight();
             delete root;
             root = onlyChild;
             return true;
         }
-        if (!(root->getLeft() == NULL) && !(root->getRight() == NULL)) {
+        if (!(root->getLeft() == nullptr) && !(root->getRight() == nullptr)) {
             // both children (should make closest node root)
             replace_parent(root, root->recurseLeft());
             return true;
         }
     }
-    if (local_root == NULL) {
+    if (local_root == nullptr) {
         return false;
     } else {
         if (item < local_root->getData())
@@ -98,9 +99,9 @@ bool AVL::erase(Node*& local_root,const int& item) {
             return erase(local_root->recurseRight(), item);
         else { // Found item
             Node* old_root = local_root;
-            if (local_root->getLeft() == NULL) {
+            if (local_root->getLeft() == nullptr) {
                 local_root = local_root->getRight();
-            } else if (local_root->getRight() == NULL) {
+            } else if (local_root->getRight() == nullptr) {
                 local_root = local_root->getLeft();
             } else {
                 replace_parent(old_root, old_root->recurseLeft());
@@ -113,11 +114,17 @@ bool AVL::erase(Node*& local_root,const int& item) {
 }
 
 void AVL::replace_parent(Node*& old_root, Node*& local_root) {
-    if (local_root->getRight() != NULL) {
+    if (local_root->getRight() != nullptr) {
         replace_parent(old_root, local_root->recurseRight());
     } else {
         int newData = local_root->getData();
         erase(root, local_root->getData());
         old_root->setData(newData);
     }
+}
+void AVL::rotateLeft() {
+
+}
+void AVL::rotateRight() {
+
 }
