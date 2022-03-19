@@ -7,7 +7,7 @@ class AVL : public AVLInterface {
 protected:
     Node* root;
 public:
-    bool erase(Node*& local_root,const int& item);
+    void erase(Node*& local,const int& data, bool& complete);
     void replace_parent(Node*& old_root, Node*& local_root);
 
     AVL();
