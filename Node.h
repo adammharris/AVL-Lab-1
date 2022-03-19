@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include "NodeInterface.h"
 
 class Node : public NodeInterface {
@@ -8,13 +7,12 @@ private:
     int height;
     Node* left;
     Node* right;
-    NodeInterface* l;
-    NodeInterface* r;
+    Node* parent;
 
 public:
     Node(int data);
 
-    void setData(int data);
+    void setData(int i);
     void setLeft(Node* newLeft);
     void setRight(Node* newRight);
     Node* getLeft() const;
@@ -28,4 +26,7 @@ public:
 
     void setHeight(int height);
     int getHeight();
+    void setParent(Node* parent);
+    Node* getParent() const;
+    Node*& recurseParent();
 };

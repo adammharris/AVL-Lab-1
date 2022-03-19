@@ -1,16 +1,16 @@
 #include "NodeInterface.h"
 #include "Node.h"
-#include <iostream>
 
 Node::Node(int data) {
     this->data = data;
     left = nullptr;
     right = nullptr;
-    height = 1;
+    parent = nullptr;
+    height = 0;
 }
 
-void Node::setData(int data) {
-    this->data = data;
+void Node::setData(int newData) {
+    data = newData;
 }
 void Node::setLeft(Node* newLeft) {
     left = newLeft;
@@ -41,9 +41,18 @@ NodeInterface* Node::getRightChild() const {
     return right;
 }
 
-void Node::setHeight(int height) {
-    this->height = height;
+void Node::setHeight(int newHeight) {
+    height = newHeight;
 }
 int Node::getHeight() {
     return height;
+}
+void Node::setParent(Node* newParent) {
+    parent = newParent;
+}
+Node* Node::getParent() const {
+    return parent;
+}
+Node*& Node::recurseParent() {
+    return parent;
 }
