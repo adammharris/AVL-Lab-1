@@ -15,7 +15,7 @@ public:
   * @return pointer of node next to or equal to data
   * @return nullptr if BST is empty
     */
-    Node* find(const int& data);
+    //Node* find(const int& data);
     bool removeFinalNode();
     bool erase(Node*& local_root,const int& item);
     void replace_parent(Node*& old_root, Node*& local_root);
@@ -24,9 +24,13 @@ public:
     ~AVL();
     NodeInterface* getRootNode() const;
     bool add(int data);
+    bool insert(const int& data, Node*& local);
     bool remove(int data);
     void clear();
 
-    void rotateLeft();
-    void rotateRight();
+    void rotate(Node*& local);
+    void rotateLeft(Node*& local);
+    void rotateRight(Node*& local);
+    int getHeight(Node* local);
+    void calcHeight(Node* local);
 };

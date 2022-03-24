@@ -2,25 +2,6 @@
 #include "Node.h"
 #include <iostream>
 
-Node* AVL::find(const int& data) {
-    Node* nextNode;
-    if (data > local_node->getData()) {
-        nextNode = local_node->getRight();
-    } else if (data < local_node->getData()) {
-        nextNode = local_node->getLeft();
-    } else {
-        nextNode = nullptr;
-    }
-    if (nextNode == nullptr) {
-        Node* toReturn = local_node;
-        local_node = root; // reset local_node
-        return toReturn;
-    }
-    local_node = nextNode;
-    local_height++;
-    return find(data);
-}
-
 AVL::AVL() {
     root = nullptr;
     local_node = nullptr;
@@ -32,22 +13,28 @@ NodeInterface* AVL::getRootNode() const {
     return root;
 }
 bool AVL::add(int data) {
-    if (root == nullptr) {
-        root = new Node(data);
-        local_node = root;
+    return insert(data, root);
+}
+bool AVL::insert(const int& data, Node*& local) {
+    if (local == nullptr) {
+        local = new Node(data);
         return true;
     }
-    Node* closestNode = find(data);
-    if (closestNode == nullptr || closestNode->getData() == data) {
+    if (local->getData() == data) {
         return false;
     }
-    Node* newNode = new Node(data);
-    if (data > closestNode->getData()) {
-        closestNode->setRight(newNode);
-    } else {
-        closestNode->setLeft(newNode);
+    if (data > local->getData()) {
+        bool result = insert(data, local->recurseRight());
+        calcHeight(local);
+        rotate(local);
+        return result;
     }
-    return true;
+    if (data < local->getData()) {
+        bool result = insert(data, local->recurseLeft());
+        calcHeight(local);
+        rotate(local);
+        return result;
+    }
 }
 bool AVL::remove(int data) {
     return erase(root, data);
@@ -122,9 +109,53 @@ void AVL::replace_parent(Node*& old_root, Node*& local_root) {
         old_root->setData(newData);
     }
 }
-void AVL::rotateLeft() {
-
+void AVL::rotateLeft(Node*& local) {
+    Node* temp = local->getLeft();
+    local->setLeft(temp->getRight());
+    temp->setRight(local);
+    local = temp;
 }
-void AVL::rotateRight() {
-
+void AVL::rotateRight(Node*& local) {
+    Node* temp = local->getRight();
+    local->setRight(temp->getLeft());
+    temp->setLeft(local);
+    local = temp;
+}
+void AVL::rotate(Node*& local) {
+    int leftHeight;
+    int rightHeight;
+    if (local->getLeft()) {
+        leftHeight = local->getLeft()->getHeight();
+    } else {
+        leftHeight = 0;
+    }
+    if (local->getRight()) {
+        rightHeight = local->getRight()->getHeight();
+    } else {
+        rightHeight = 0;
+    }
+    if (leftHeight - rightHeight > 1) {
+        rotateLeft(local);
+    } else if (rightHeight - leftHeight > 1) {
+        rotateRight(local);
+    }
+}
+int AVL::getHeight(Node* local) {
+    if (local == nullptr) {
+        return 0;
+    }
+    return local->getHeight();
+}
+void AVL::calcHeight(Node* local) {
+    if (local == nullptr) {
+        return;
+    }
+    int max = 0;
+    if (getHeight(local->getLeft()) > max) {
+        max = getHeight(local->getLeft());
+    }
+    if (getHeight(local->getRight()) > max) {
+        max = getHeight(local->getRight());
+    }
+    local->setHeight(max+1);
 }

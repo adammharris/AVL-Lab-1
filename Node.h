@@ -8,9 +8,6 @@ private:
     int height;
     Node* left;
     Node* right;
-    NodeInterface* l;
-    NodeInterface* r;
-
 public:
     Node(int data);
 
