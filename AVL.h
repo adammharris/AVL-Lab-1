@@ -7,8 +7,6 @@ using namespace std;
 class AVL : public AVLInterface {
 protected:
     Node* root;
-    Node* local_node; // used for `find`
-    int local_height;
 public:
     /*
     * `find` helps find data via recursion
