@@ -114,12 +114,18 @@ void AVL::rotateLeft(Node*& local) {
     local->setLeft(temp->getRight());
     temp->setRight(local);
     local = temp;
+    calcHeight(local->recurseLeft());
+    calcHeight(local->recurseRight());
+    calcHeight(local);
 }
 void AVL::rotateRight(Node*& local) {
     Node* temp = local->getRight();
     local->setRight(temp->getLeft());
     temp->setLeft(local);
     local = temp;
+    calcHeight(local->recurseLeft());
+    calcHeight(local->recurseRight());
+    calcHeight(local);
 }
 void AVL::rotate(Node*& local) {
     int leftHeight;
