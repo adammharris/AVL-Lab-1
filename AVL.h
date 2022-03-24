@@ -8,13 +8,6 @@ class AVL : public AVLInterface {
 protected:
     Node* root;
 public:
-    /*
-    * `find` helps find data via recursion
-  * @return pointer of node next to or equal to data
-  * @return nullptr if BST is empty
-    */
-    //Node* find(const int& data);
-    bool removeFinalNode();
     bool erase(Node*& local_root,const int& item);
     void replace_parent(Node*& old_root, Node*& local_root);
 
