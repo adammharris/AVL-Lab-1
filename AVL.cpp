@@ -71,7 +71,6 @@ bool AVL::erase(Node*& local_root,const int& item) {
             local_root = local_root->getLeft();
         } else {
             replace_parent(old_root, old_root->recurseLeft());
-            calcHeight(local_root);
             rotate(local_root);
             return true;
         }
@@ -86,11 +85,11 @@ bool AVL::erase(Node*& local_root,const int& item) {
 void AVL::replace_parent(Node*& old_root, Node*& local_root) {
     if (local_root->getRight() != nullptr) {
         replace_parent(old_root, local_root->recurseRight());
+        rotate(local_root);
     } else {
         int newData = local_root->getData();
         erase(local_root, local_root->getData());
         old_root->setData(newData);
-        calcHeight(old_root);
     }
 }
 void AVL::rotateLeft(Node*& local) {
