@@ -14,9 +14,15 @@ void Node::setData(int newData) {
 }
 void Node::setLeft(Node* newLeft) {
     left = newLeft;
+    if (left != nullptr) {
+        left->setParent(this);
+    }
 }
 void Node::setRight(Node* newRight) {
     right = newRight;
+    if (right != nullptr) {
+        right->setParent(this);
+    }
 }
 Node* Node::getLeft() const {
     return left;
